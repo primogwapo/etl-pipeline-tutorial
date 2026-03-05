@@ -1,5 +1,22 @@
 import pandas as pd
 import sqlite3
+import os
+
+# ========== CREATE SAMPLE DATA ========== #
+def create_sample_data(file_path):
+    """Create sample CSV if it doesn't exist"""
+    if not os.path.exists(file_path):
+        data = {
+            'order_id': [1001, 1002, 1003, 1004, 1005],
+            'customer_id': ['C101', 'C102', 'C103', 'C101', 'C102'],
+            'product': ['Laptop', 'Phone', 'Tablet', 'Monitor', 'Keyboard'],
+            'quantity': [2, 1, 3, 1, 2],
+            'price': [1200, 800, 400, 300, 50],
+            'order_date': ['2023-01-15', '2023-01-16', '2023-01-17', '2023-01-18', '2023-01-19']
+        }
+        df = pd.DataFrame(data)
+        df.to_csv(file_path, index=False)
+        print(f"Created sample data file: {file_path}")
 
 # ========== EXTRACT ========== #
 def extract_data(file_path):
@@ -30,6 +47,9 @@ def load_data(df, db_name, table_name):
 
 # ========== MAIN ETL PIPELINE ========== #
 if __name__ == "__main__":
+    # Create sample data if it doesn't exist
+    create_sample_data("sales_data.csv")
+    
     # Extract
     raw_data = extract_data("sales_data.csv")
     
